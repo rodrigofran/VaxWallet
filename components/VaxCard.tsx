@@ -1,31 +1,36 @@
 import * as React from 'react';
-import { StyleSheet, Image, Button } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { Text, View} from '../components/Themed';
 import VaxModel from '../models/VaxModel';
 import Moment from 'moment';
 import VaxDetailButton from './VaxDetailButton';
 
-export default class VaxCard extends React.Component<VaxModel> {
+type Props = {
+  model: VaxModel;
+};
+
+export default class VaxCard extends React.Component<Props> {
     
-    constructor(props: VaxModel) {
+    constructor(props: Props) {
       super(props);
     }
-    onPressDetail(model: VaxModel){
-      console.log(`Abrir tela detalhe vacina id ${model.vaxId}`)
+    onPressDetail(props: Props){
+      console.log(`Abrir tela detalhe vacina id ${props.model.vaxId}`)
     }
+
     render(){
         return(
             <View style = {styles.container}>
                 <View style = {styles.containerImage}>
                   <Image
                     style={styles.vaxImage}
-                    source={{uri: this.props.urlImage}}
+                    source={{uri: this.props.model.urlImage}}
                   />
-                  <Text style= {styles.text}>{this.props.name}</Text>
+                  <Text style= {styles.text}>{this.props.model.name}</Text>
                 </View>  
                 <View style = {styles.containerDetail}>
                   <Text style= {styles.text}>Data vacinação:</Text>
-                  <Text style= {styles.text}>{Moment(this.props.vaxDate).format("DD/MM/YYYY") }</Text>
+                  <Text style= {styles.text}>{Moment(this.props.model.vaxDate).format("DD/MM/YYYY") }</Text>
                   <VaxDetailButton title= {"DETALHE"} onPress={() => this.onPressDetail(this.props)}/>
               </View>
             </View>

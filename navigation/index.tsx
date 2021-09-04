@@ -8,16 +8,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName, Image, StyleSheet } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
+import VaxModalScreen from '../screens/VaxModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabHomeScreen from '../screens/TabHomeScreen';
 import TabProfileScreen from '../screens/TabProfileScreen';
 import TabVaxScreen from '../screens/TabVaxScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootTabParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -47,7 +47,7 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="VaxModal" component={VaxModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -73,31 +73,19 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="TabHome"
         component={TabHomeScreen}
-        options={({ navigation }: RootTabScreenProps<'TabHome'>) => ({
+        options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
+          headerTitleAlign: 'center',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+        }}
       />
       <BottomTab.Screen
         name="TabVax"
         component={TabVaxScreen}
         options={{
           title: 'Vacinas',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerTitleAlign: 'center',
+          tabBarIcon: ({ color }) => <Image source={require('../assets/images/vax-icon.svg')}  style={[styles.icon, {tintColor: color}]}/>,
         }}
       />
       <BottomTab.Screen
@@ -105,7 +93,8 @@ function BottomTabNavigator() {
         component={TabProfileScreen}
         options={{
           title: 'Perfil',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerTitleAlign: 'center',
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -121,3 +110,10 @@ function TabBarIcon(props: {
 }) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 26,
+    height: 26,
+  },
+ });

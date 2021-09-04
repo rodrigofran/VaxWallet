@@ -45,7 +45,7 @@ export default class TabVaxScreen extends React.Component<Props, State> {
           <FlatList
             style = {styles.list}
             data={this.state.list}
-            renderItem={({item}) => <VaxCard vaxId = {item.vaxId} name = {item.name} urlImage = {item.urlImage} vaxDate = {item.vaxDate} />}
+            renderItem={({item}) => <VaxCard model = {item} />}
           />
         </View>
     );
