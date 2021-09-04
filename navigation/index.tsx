@@ -21,6 +21,11 @@ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../typ
 import LinkingConfiguration from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+  
+  DarkTheme.colors.card = Colors.dark.card;
+  DarkTheme.colors.border = Colors.dark.border;
+  DarkTheme.colors.background = Colors.dark.card;
+
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
@@ -61,6 +66,8 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="TabHome"
       screenOptions={{
+        tabBarActiveBackgroundColor: Colors[colorScheme].background,
+        tabBarInactiveBackgroundColor: Colors[colorScheme].background,
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
