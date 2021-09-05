@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { StyleSheet, Button } from 'react-native';
-import { View} from '../components/Themed';
+import { TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { View, Text} from '../components/Themed';
+import Colors from '../constants/Colors';
 
 interface Props{
     onPress:Function,
@@ -15,24 +17,29 @@ export default class VaxDetailButton extends React.Component<Props>{
 
     render(){
         return(
-            <View style= {styles.containerButton}>
-                      <Button
-                        onPress={() => this.props.onPress()}
-                        title= {this.props.title}
-                        color="rgb(0 0 0 / 0%)"
-                        accessibilityLabel="Consulte mais detalhes sobre essa vacina"
-                      />                
-                    </View>
+          <TouchableOpacity onPress= {() => this.props.onPress()} style={styles.appButtonContainer}>
+            <Text style={styles.appButtonText}>{this.props.title}</Text>
+          </TouchableOpacity>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    containerButton:{
-      borderRadius: 4,
-      borderStyle: 'solid',
-      borderColor: '#fff',
-      borderWidth: 1,
-      marginTop: 12,
-    }
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: Colors.dark.background,
+    borderColor: "#fff",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12
+  },
+  appButtonText: {
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
+  }
   });

@@ -22,9 +22,15 @@ import LinkingConfiguration from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   
+  DefaultTheme.colors.card = Colors.light.card;
+  DefaultTheme.colors.border = Colors.light.border;
+  DefaultTheme.colors.background = Colors.light.card;
+  DefaultTheme.colors.text = Colors.light.text;
+
   DarkTheme.colors.card = Colors.dark.card;
   DarkTheme.colors.border = Colors.dark.border;
   DarkTheme.colors.background = Colors.dark.card;
+  DarkTheme.colors.text = Colors.dark.text;
 
   return (
     <NavigationContainer

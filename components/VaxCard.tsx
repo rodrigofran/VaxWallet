@@ -30,7 +30,7 @@ export default class VaxCard extends React.Component<Props> {
                 </View>  
                 <View style = {styles.containerDetail}>
                   <Text style= {styles.text}>Data vacinação:</Text>
-                  <Text style= {styles.text}>{Moment(this.props.model.vaxDate).format("DD/MM/YYYY") }</Text>
+                  <Text style= {styles.textDate}>{Moment(this.props.model.vaxDate).format("DD/MM/YYYY") }</Text>
                   <VaxDetailButton title= {"DETALHE"} onPress={() => this.onPressDetail(this.props)}/>
               </View>
             </View>
@@ -41,7 +41,6 @@ export default class VaxCard extends React.Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    background: '#fff',
     flexDirection:'row',
     padding: 24,
     margin: 5,
@@ -54,13 +53,6 @@ const styles = StyleSheet.create({
   containerImage:{
     flex: 1,
     alignItems: 'center'
-  },
-  containerButton:{
-    borderRadius: 4,
-    borderStyle: 'solid',
-    borderColor: '#fff',
-    borderWidth: 1,
-    marginTop: 12,
   },
   vaxImage: {
     width: 36,
@@ -75,6 +67,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     lineHeight: 16,
-    textAlign: 'center'
+    textAlign: 'center',
   },
+  textDate:{
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: 14,
+    lineHeight: 16,
+    textAlign: 'center',
+    marginBottom: 24,
+  }
 });
