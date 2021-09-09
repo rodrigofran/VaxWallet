@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, RefreshControl } from 'react-native';
 
 import { View } from '../components/Themed';
 import VaxCard from '../components/VaxCard';
@@ -9,18 +9,18 @@ import axios from 'axios';
 
 export interface Props {
   name: string;
-  enthusiasmLevel?: number;
 }
 
 interface State {
   list: Array<VaxModel>;
   search: string;
+  refreshing: boolean;
 }
 
 export default class TabVaxScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {list: new Array<VaxModel>(), search: ""}
+    this.state = {list: new Array<VaxModel>(), search: "", refreshing: false}
     this.getVaxList();
   }
 
@@ -35,8 +35,14 @@ export default class TabVaxScreen extends React.Component<Props, State> {
       // handle error
       console.log(error);
     });
-    this.state = {list, search: this.state.search};
+    this.state = {list, search: this.state.search, refreshing: false};
     this.setState({list: this.state.list, search: this.state.search});
+  }
+
+  refreshVaxList(){
+    this.state = {list: this.state.list, search: this.state.search, refreshing: false};
+    this.setState({list: this.state.list, search: this.state.search});
+    this.getVaxList();
   }
 
   render(){
@@ -45,6 +51,12 @@ export default class TabVaxScreen extends React.Component<Props, State> {
           <FlatList
             style = {styles.list}
             data={this.state.list}
+            refreshControl = {
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={()=>this.refreshVaxList()} 
+                />
+            }
             renderItem={({item}) => <VaxCard model = {item} />}
           />
         </View>
