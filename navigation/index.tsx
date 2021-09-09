@@ -91,7 +91,7 @@ function BottomTabNavigator() {
         options={{
           title: 'Vacinas',
           headerTitleAlign: 'center',
-          tabBarIcon: ({ color }) => <Image source={require('../assets/images/vax-icon.svg')}  style={[styles.icon, {tintColor: color}]}/>,
+          tabBarIcon: ({ color }) => <Image source={require('../assets/images/vax-icon.png')}  style={[styles.icon, {tintColor: color}]}/>,
         }}
       />
       <BottomTab.Screen
