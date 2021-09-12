@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { SearchBar } from 'react-native-elements';
+import Moment from 'moment';
 
 import { View } from '../components/Themed';
 import VaxCard from '../components/VaxCard';
@@ -13,6 +15,7 @@ export interface Props {
 
 interface State {
   list: Array<VaxModel>;
+  listFiltered: Array<VaxModel>;
   search: string;
   refreshing: boolean;
 }
@@ -20,7 +23,7 @@ interface State {
 export default class TabVaxScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {list: new Array<VaxModel>(), search: "", refreshing: false}
+    this.state = {list: new Array<VaxModel>(), listFiltered: new Array<VaxModel>(), search: "", refreshing: false}
     this.getVaxList();
   }
 
@@ -35,22 +38,44 @@ export default class TabVaxScreen extends React.Component<Props, State> {
       // handle error
       console.log(error);
     });
-    this.state = {list, search: this.state.search, refreshing: false};
-    this.setState({list: this.state.list, search: this.state.search});
+    this.state = {list, listFiltered: list, search: this.state.search, refreshing: false};
+    this.setState({list: this.state.list, listFiltered: this.state.list, search: this.state.search});
   }
 
   refreshVaxList(){
-    this.state = {list: this.state.list, search: this.state.search, refreshing: false};
     this.setState({list: this.state.list, search: this.state.search});
     this.getVaxList();
   }
 
+  updateSearch = (search:string) => {
+    let list = this.state.list;
+    let listFiltered = this.state.list;
+
+    if(search.length > 1) {
+      listFiltered = list.filter((model) => 
+        model.name.toLowerCase().includes(search.toLowerCase()) ||
+        Moment(model.vaxDate).format("DD/MM/YYYY").includes(search.toLowerCase()));
+      this.setState({ search, listFiltered: listFiltered});
+      return listFiltered;
+    }
+    this.setState({search, listFiltered: list} )
+    return listFiltered;  
+  };
+
   render(){
+    const { search } = this.state;
+
       return (
         <View style={styles.container}>
+           <SearchBar
+            placeholder="Type Here..."
+            lightTheme = {true}
+            onChangeText={this.updateSearch}
+            value={search}
+          />
           <FlatList
             style = {styles.list}
-            data={this.state.list}
+            data={this.state.listFiltered}
             refreshControl = {
               <RefreshControl
                 refreshing={this.state.refreshing}
