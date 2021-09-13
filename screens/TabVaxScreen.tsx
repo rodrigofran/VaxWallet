@@ -46,10 +46,10 @@ export default function TabVaxScreen(){
 
     var list = new Array<VaxModel>();
     await axios.get<Array<VaxModel>>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/find')
-    .then(function (response) {
+    .then((response) => {
       list = response.data;
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log(error);
     });
 
