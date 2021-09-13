@@ -6,6 +6,8 @@ import { Provider as PaperProvider, TextInput } from 'react-native-paper';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+import LoginScreen from './screens/LoginScreen';
+import { theme } from './App.style';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -15,7 +17,7 @@ export default function App() {
     return null;
   } else {
     return (
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <Navigation colorScheme={colorScheme} />
         <StatusBar />
       </PaperProvider>

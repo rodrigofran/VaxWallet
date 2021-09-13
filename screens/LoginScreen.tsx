@@ -1,31 +1,55 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Button, Card, TextInput } from 'react-native-paper';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
+//para deixar a tela de login como principal, basta acessar o arquivo App.tsx e apagar todo conteúdo do ProviderPaper e inserir a tag da tela <LoginScreen/> 
+
 export default function LoginScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    </View>
+    <SafeAreaView style={styles.content}>
+      <View style = {styles.containerView}>
+        <Card>
+          <Card.Title title='Seja Bem vindo!' titleStyle={styles.title}></Card.Title>
+          <Card.Content>
+            <TextInput label='email' keyboardType='email-address'></TextInput>
+            <TextInput label='senha' secureTextEntry={true} ></TextInput>
+            <Button mode='contained' style = {styles.buttonView} >Login</Button>
+          </Card.Content>
+        </Card>
+      </View>  
+    </SafeAreaView>  
+      
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
+    display: 'flex',
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#054C63'
   },
+
+  containerView: {
+    width: '90%',
+  },
+
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    color: '#054C63',
+    fontWeight: 'bold'
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+
+  buttonView: {
+    marginTop: 30
+  }
+  
+
 });
+
+
