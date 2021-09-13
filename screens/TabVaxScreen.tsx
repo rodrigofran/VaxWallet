@@ -10,17 +10,6 @@ import VaxModel from '../models/VaxModel';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export interface Props {
-  name: string;
-}
-
-interface State {
-  list: Array<VaxModel>;
-  listFiltered: Array<VaxModel>;
-  search: string;
-  refreshing: boolean;
-}
-
 export default function TabVaxScreen(){
   
   useEffect(() => 
