@@ -8,7 +8,7 @@ import VaxCard from '../components/VaxCard';
 import VaxModel from '../models/VaxModel';
 
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface Props {
   name: string;
@@ -22,19 +22,16 @@ interface State {
 }
 
 export default function TabVaxScreen(){
-
+  
+  useEffect(() => 
+  {
+    getVaxList();
+  }, [])
+  
   const [search, setSearch] = useState<string>("");
   const [list, setList] = useState<Array<VaxModel>>(new Array<VaxModel>());
   const [listFiltered, setListFiltered] = useState<Array<VaxModel>>(new Array<VaxModel>());
-  const [isLoadVaxList, setIsLoadVaxList] = useState<boolean>(true);
   const [refreshing, setRefreshing] = useState<boolean>(false);
-
-  const loadListVax = () => {
-    if(isLoadVaxList){
-      getVaxList();
-      setIsLoadVaxList(false);
-    }
-  }
 
   const refreshVaxList = () =>{
     getVaxList();
@@ -71,7 +68,6 @@ export default function TabVaxScreen(){
     setListFiltered(list);
   };
 
-  loadListVax();
   return (
     <View style={styles.container}>
        <SearchBar
