@@ -8,6 +8,7 @@ import VaxCard from '../components/VaxCard';
 import VaxModel from '../models/VaxModel';
 
 import axios from 'axios';
+import { useState } from 'react';
 
 export interface Props {
   name: string;
@@ -20,73 +21,77 @@ interface State {
   refreshing: boolean;
 }
 
-export default class TabVaxScreen extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {list: new Array<VaxModel>(), listFiltered: new Array<VaxModel>(), search: "", refreshing: false}
-    this.getVaxList();
+export default function TabVaxScreen(){
+
+  const [search, setSearch] = useState<string>("");
+  const [list, setList] = useState<Array<VaxModel>>(new Array<VaxModel>());
+  const [listFiltered, setListFiltered] = useState<Array<VaxModel>>(new Array<VaxModel>());
+  const [isLoadVaxList, setIsLoadVaxList] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const loadListVax = () => {
+    if(isLoadVaxList){
+      getVaxList();
+      setIsLoadVaxList(false);
+    }
   }
 
-  async getVaxList(){
+  const refreshVaxList = () =>{
+    getVaxList();
+  }
+
+  const getVaxList = async () => {
+    setSearch("");
+    setRefreshing(true);
+
     var list = new Array<VaxModel>();
     await axios.get<Array<VaxModel>>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/find')
     .then(function (response) {
-      // handle success
       list = response.data;
     })
     .catch(function (error) {
-      // handle error
       console.log(error);
     });
-    this.state = {list, listFiltered: list, search: this.state.search, refreshing: false};
-    this.setState({list: this.state.list, listFiltered: this.state.list, search: this.state.search});
-  }
 
-  refreshVaxList(){
-    this.setState({list: this.state.list, search: this.state.search});
-    this.getVaxList();
-  }
-
-  updateSearch = (search:string) => {
-    let list = this.state.list;
-    let listFiltered = this.state.list;
-
-    if(search.length > 1) {
-      listFiltered = list.filter((model) => 
-        model.name.toLowerCase().includes(search.toLowerCase()) ||
-        Moment(model.vaxDate).format("DD/MM/YYYY").includes(search.toLowerCase()));
-      this.setState({ search, listFiltered: listFiltered});
-      return listFiltered;
-    }
-    this.setState({search, listFiltered: list} )
-    return listFiltered;  
+    setList(list);
+    setListFiltered(list);
+    setSearch("");
+    setRefreshing(false);
   };
 
-  render(){
-    const { search } = this.state;
+  const updateSearch = (search:string) => {
+    setSearch(search);
+    if(search.length > 1) {
+      let listFiltered = list.filter((model) => 
+        model.name.toLowerCase().includes(search.toLowerCase()) ||
+        Moment(model.vaxDate).format("DD/MM/YYYY").includes(search.toLowerCase()));
+      setListFiltered(listFiltered);
+      return listFiltered;
+    }
+    setListFiltered(list);
+  };
 
-      return (
-        <View style={styles.container}>
-           <SearchBar
-            placeholder="Type Here..."
-            lightTheme = {true}
-            onChangeText={this.updateSearch}
-            value={search}
-          />
-          <FlatList
-            style = {styles.list}
-            data={this.state.listFiltered}
-            refreshControl = {
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={()=>this.refreshVaxList()} 
-                />
-            }
-            renderItem={({item}) => <VaxCard model = {item} />}
-          />
-        </View>
-    );
-  }
+  loadListVax();
+  return (
+    <View style={styles.container}>
+       <SearchBar
+        placeholder="Buscar..."
+        lightTheme = {true}
+        onChangeText={updateSearch}
+        value={search}
+      />
+      <FlatList
+        style = {styles.list}
+        data={listFiltered}
+        refreshControl = {
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refreshVaxList}
+            />
+        }
+        renderItem={({item}) => <VaxCard model = {item} />}
+      />
+    </View>);
 }
 
 const styles = StyleSheet.create({
