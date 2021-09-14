@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import { Provider as PaperProvider, TextInput } from 'react-native-paper';
 
 import useCachedResources from './hooks/useCachedResources';
@@ -8,6 +8,12 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import LoginScreen from './screens/LoginScreen';
 import { theme } from './App.style';
+import { createStackNavigator } from '@react-navigation/stack';
+import { startClock } from 'react-native-reanimated';
+
+
+
+
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -18,7 +24,7 @@ export default function App() {
   } else {
     return (
       <PaperProvider theme={theme}>
-        <Navigation colorScheme={colorScheme} />
+        <Navigation colorScheme={colorScheme}  />
         <StatusBar />
       </PaperProvider>
     );
