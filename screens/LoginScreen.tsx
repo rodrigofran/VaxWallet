@@ -44,7 +44,17 @@ export default function LoginScreen() {
               />
             )}
           />
-          <TextInput style={styles.input}  label='Senha' secureTextEntry={true} ></TextInput>
+          <TextInput 
+            
+            style={styles.input}  
+            label='Senha' 
+            secureTextEntry={true}
+            value={password}
+            onChangeText={(text) => {
+            setPassword(text);
+            }}>
+            
+          </TextInput>
 
           <Button mode='contained' style = {styles.buttonView} onPress={() => navigation.navigate('Root')} >Login </Button>
         </View>
