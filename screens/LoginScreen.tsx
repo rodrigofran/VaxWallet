@@ -1,67 +1,100 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Card, TextInput } from 'react-native-paper';
-
-
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { RootStackParamList } from '../types';
-
-
-//para deixar a tela de login como principal, basta acessar o arquivo App.tsx e apagar todo conteúdo do ProviderPaper e inserir a tag da tela <LoginScreen/> 
-
-
-
-
-
+import { createRef, useRef, useState } from 'react';
+import { View, KeyboardAvoidingView, SafeAreaView, StyleSheet, Image, Text } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
+import { Button, TextInput } from 'react-native-paper';
 
 export default function LoginScreen() {
 
   const navigation = useNavigation()
   
+  const [cpf, setCPF] = useState('');
+  const [password, setPassword] = useState('')
+  const cpfRef = useRef(null);
+  
+  /*
+  tirar os pontos do cpf na chamada da API
+  const unmask = cpfRef?.current.isValid();
+  */
+  
   return (
-    <SafeAreaView style={styles.content} >
-      <View style = {styles.containerView}>
-        <Card>
-          <Card.Title title='Seja Bem vindo!' titleStyle={styles.title}></Card.Title>
-          <Card.Content>
-            <TextInput label='email' keyboardType='email-address'></TextInput>
-            <TextInput label='senha' secureTextEntry={true} ></TextInput>
-            <Button mode='contained' style = {styles.buttonView} onPress={() => navigation.navigate('Root')} >Login </Button>
-          </Card.Content>
-        </Card>
-      </View>  
-    </SafeAreaView>  
+    <KeyboardAvoidingView style={styles.background}>
+      <View style={styles.containerLogo}>
+        <Image
+        style={styles.logo}
+        source={require('../assets/images/logo2.png')  }
+        />
+      </View>
+        <View style={styles.container}>
+          
+          <TextInput
+            style={styles.input}
+            label="CPF"
+            render={(props) => (
+              <TextInputMask
+                {...props}
+                value={cpf}
+                type={"cpf"}
+                ref={cpfRef}
+                onChangeText={(text) => {
+                  props.onChangeText?.(text);
+                  setCPF(text);
+                }}  
+              />
+            )}
+          />
+          <TextInput style={styles.input}  label='Senha' secureTextEntry={true} ></TextInput>
+
+          <Button mode='contained' style = {styles.buttonView} onPress={() => navigation.navigate('Root')} >Login </Button>
+        </View>
+
+      
+    </KeyboardAvoidingView>
       
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    display: 'flex',
+  background: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#054C63'
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 
-  containerView: {
+  containerLogo: {
+    flex: 1,
+    justifyContent: 'center',
+
+  },
+
+  logo: {
+    width: 350,
+    height: 80
+  },
+
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     width: '90%',
   },
 
-  title: {
-    color: '#054C63',
-    fontWeight: 'bold'
+  input: {
+    width: '90%',
+    marginBottom: 15,
+    color: '#222',
+    fontSize: 20,
+    padding: 15,
+    
   },
-
+  
   buttonView: {
+    width: '90%',
+    padding: 4,
     marginTop: 30
   }
-  
 
 });
 

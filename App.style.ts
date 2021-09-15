@@ -6,5 +6,6 @@ export const theme = {
     ...DefaultTheme.colors,
     primary:'#054C63',
     background: "transparent"
+  
   }
 }
