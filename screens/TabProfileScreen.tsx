@@ -11,18 +11,31 @@ import { Feather } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-
-const FirstName = 'Rodrigo'
-const LastName = 'Occhiuto'
-
-
+import { useEffect, useState } from 'react';
+import ProfileModel from '../models/ProfileModel';
+import axios from 'axios';
 
 export default function TabProfileScreen() {
 
-  const navigation = useNavigation()
+  useEffect(() =>{
+    getProfile();
+  }, []);
+
+  const [profile, setProfile] = useState<ProfileModel>();
+  const navigation = useNavigation();
+
+  const getProfile = async () => 
+  {
+    await axios.get<ProfileModel>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/profile/1')
+    .then((response) => {
+      setProfile(response.data)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 
   return (
-    
     <SafeAreaView style={styles.container}>
       <ScrollView style = {styles.scrollView}>
         <View style={styles.picture}>
@@ -33,37 +46,35 @@ export default function TabProfileScreen() {
             size={120}
           />
           <View style={styles.ViewTitle}>
-            <Text style={styles.title}>Olá, {FirstName}</Text>
+            <Text style={styles.title}>{"Olá,"} {profile?.firstName}</Text>
           </View>
         </View>
         <View style={styles.detail}>
           <View style={styles.input}>
             <FontAwesome name='user-o'size={17} style={styles.icon}/>
-            <Text style={styles.content}>{FirstName} {LastName}</Text>
+            <Text style={styles.content}>{profile?.firstName} {profile?.lastName}</Text>
           </View>
           <View style={styles.input}>
             <Feather name='phone'size={17} style={styles.icon}/>
-            <Text style={styles.content}>Celular</Text>
+            <Text style={styles.content}>{profile?.phone}</Text>
           </View>
           <View style={styles.input}>
             <FontAwesome name='envelope-o'size={17} style={styles.icon}/>
-            <Text style={styles.content}>Email</Text>
+            <Text style={styles.content}>{profile?.email}</Text>
           </View>
           <View style={styles.input}>
             <FontAwesome name='globe'size={17} style={styles.icon}/>
-            <Text style={styles.content}>País</Text>
+            <Text style={styles.content}>{profile?.country}</Text>
           </View>
           <View style={styles.input}>
             <Icon name='map-marker-outline'size={17} style={styles.icon}/>
-            <Text style={styles.content}>Cidade</Text>
+            <Text style={styles.content}>{profile?.city}</Text>
           </View>
           <View  style = {styles.logout}>
           <Button mode='contained'onPress={() => navigation.navigate('LoginScreen')} >Sair</Button>
           </View>
-          
         </View>
       </ScrollView>
-      
     </SafeAreaView>
   );
 }
