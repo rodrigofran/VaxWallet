@@ -103,9 +103,9 @@ const styles = StyleSheet.create({
   buttonView: {
     width: '90%',
     padding: 4,
-    marginTop: 30
+    marginTop: 30,
+    borderRadius: 25
   }
-
 });
 
 

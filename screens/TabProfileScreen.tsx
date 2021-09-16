@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { Accessory, Avatar} from 'react-native-elements';
+import { ActivityIndicator, SafeAreaView, StyleSheet } from 'react-native';
+import { Avatar} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Feather } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -14,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import ProfileModel from '../models/ProfileModel';
 import axios from 'axios';
+import Colors from '../constants/Colors';
 
 export default function TabProfileScreen() {
 
@@ -22,22 +21,31 @@ export default function TabProfileScreen() {
   }, []);
 
   const [profile, setProfile] = useState<ProfileModel>();
+  const [load, setLoad] = useState(true);
+
   const navigation = useNavigation();
 
   const getProfile = async () => 
   {
     await axios.get<ProfileModel>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/profile/1')
     .then((response) => {
-      setProfile(response.data)
+      setProfile(response.data);
+      setLoad(false);
     })
     .catch((error) => {
       console.log(error);
     });
   }
-
+  
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style = {styles.scrollView}>
+      <View style={[styles.horizontal, !load && {display: 'none'}]}>
+          <ActivityIndicator size="large" color={Colors.dark.tabIconSelected} />
+        </View>
+      <ScrollView style = {[styles.scrollView, !load && {display: 'flex'}]}>
+        <View style={[styles.container, styles.horizontal]}>
+          <ActivityIndicator />
+        </View>
         <View style={styles.picture}>
           <Avatar
             source={{
@@ -71,7 +79,7 @@ export default function TabProfileScreen() {
             <Text style={styles.content}>{profile?.city}</Text>
           </View>
           <View  style = {styles.logout}>
-          <Button mode='contained'onPress={() => navigation.navigate('LoginScreen')} >Sair</Button>
+            <Button mode='contained'onPress={() => navigation.navigate('LoginScreen')} >Sair</Button>
           </View>
         </View>
       </ScrollView>
@@ -82,34 +90,36 @@ export default function TabProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
   },
-
   scrollView: {
-    flex: 1
-    
+    flex: 1,
+    display: 'none',
   },
-
+  containerLoad: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  horizontal: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
+  },
   picture: {
     flex: 0,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 40
-
   },
-
   ViewTitle: {
     marginTop: 20,
   },
-
   title: {
     fontSize: 17
   },
-
   content: {
     fontSize: 17,
     color: 'grey',
-    
   },
   detail: {
     alignItems: 'center',
@@ -119,7 +129,6 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 20,
   },
-
   input: {
     paddingBottom: 5,
     width: '90%',
@@ -131,17 +140,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-
   icon: {
     marginRight: 10
   },
-
   logout: {
-    width: '30%',
-    marginBottom: 20
+    width: '90%',
+    marginBottom: 20,
   }
-
-  
-
-  
 });
