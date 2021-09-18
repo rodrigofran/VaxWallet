@@ -1,16 +1,15 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 
-export default function TabHomeScreen({ navigation }: RootTabScreenProps<'TabHome'>) {
+export default function TabHomeScreen() {
+  
+  // const quantidadeVacina = {}
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Olá, seja bem vindo!</Text>
+      <Text style={styles.title}>Olá, Seja bem vindo! </Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
 }
@@ -20,13 +19,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 20
+    paddingTop: 20,
+    backgroundColor: '#fff'
     
 
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'grey'
     
   },
   separator: {
