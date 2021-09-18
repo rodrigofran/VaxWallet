@@ -52,8 +52,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="LoginScreen" component = {LoginScreen} options={{headerShown: false}}  />
+    <Stack.Navigator screenOptions = {{animation: 'slide_from_right'}}>
+      <Stack.Screen name="LoginScreen" component = {LoginScreen} options={{headerShown: false }}  />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="VaxDetails" component={VaxDetailsScreen} options={{ headerShown: true }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
