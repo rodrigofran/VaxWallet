@@ -21,7 +21,7 @@ import { RootStackParamList, RootTabParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LoginScreen from '../screens/LoginScreen';
-import VaxModalScreen from '../screens/VaxModalScreen';
+import VaxDetailsScreen from '../screens/VaxDetailsScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   
@@ -52,15 +52,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      
-      <Stack.Screen options={{headerShown: false}} name="LoginScreen" component = {LoginScreen}  />
+    <Stack.Navigator screenOptions = {{animation: 'slide_from_right'}}>
+      <Stack.Screen name="LoginScreen" component = {LoginScreen} options={{headerShown: false }}  />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="VaxDetails" component={VaxDetailsScreen} options={{ headerShown: true }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="VaxModal" component={VaxModalScreen} />
-        
-      </Stack.Group>
     </Stack.Navigator>
   );
 }

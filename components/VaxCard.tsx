@@ -4,38 +4,36 @@ import { Text, View} from '../components/Themed';
 import VaxModel from '../models/VaxModel';
 import Moment from 'moment';
 import VaxDetailButton from './VaxDetailButton';
+import { useNavigation } from '@react-navigation/native';
 
 type Props = {
   model: VaxModel;
 };
 
-export default class VaxCard extends React.Component<Props> {
+export default function VaxCard (props: Props) {
     
-    constructor(props: Props) {
-      super(props);
-    }
-    onPressDetail(props: Props){
-      console.log(`Abrir tela detalhe vacina id ${props.model.vaxId}`)
-    }
+  const navigation = useNavigation();
 
-    render(){
-        return(
-            <View style = {styles.container}>
-                <View style = {styles.containerImage}>
-                  <Image
-                    style={styles.vaxImage}
-                    source={{uri: this.props.model.urlImage}}
-                  />
-                  <Text style= {styles.text}>{this.props.model.name}</Text>
-                </View>  
-                <View style = {styles.containerDetail}>
-                  <Text style= {styles.text}>Data vacinação:</Text>
-                  <Text style= {styles.textDate}>{Moment(this.props.model.vaxDate).format("DD/MM/YYYY") }</Text>
-                  <VaxDetailButton title= {"DETALHE"} onPress={() => this.onPressDetail(this.props)}/>
-              </View>
-            </View>
-        ) 
-    }
+  const onPressVaxDetail = () => {
+    navigation.navigate('VaxDetails', props.model);
+  }
+
+  return(
+      <View style = {styles.container}>
+          <View style = {styles.containerImage}>
+            <Image
+              style={styles.vaxImage}
+              source={{uri: props.model.urlImage}}
+            />
+            <Text style= {styles.text}>{props.model.name}</Text>
+          </View>  
+          <View style = {styles.containerDetail}>
+            <Text style= {styles.text}>Data vacinação:</Text>
+            <Text style= {styles.textDate}>{Moment(props.model.vaxDate).format("DD/MM/YYYY") }</Text>
+            <VaxDetailButton title= {"DETALHE"} onPress={onPressVaxDetail}/>
+        </View>
+      </View>
+  ) 
 }
 
 const styles = StyleSheet.create({
