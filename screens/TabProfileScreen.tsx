@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import ProfileModel from '../models/ProfileModel';
 import axios from 'axios';
 import Colors from '../constants/Colors';
+import AlertExitApp from '../components/AlertExitApp';
 
 export default function TabProfileScreen() {
 
@@ -24,6 +25,14 @@ export default function TabProfileScreen() {
   const [load, setLoad] = useState(true);
 
   const navigation = useNavigation();
+
+  const checkAppExit = () => 
+  {
+    AlertExitApp(() => 
+    {
+      navigation.navigate('LoginScreen');
+    });
+  }
 
   const getProfile = async () => 
   {
@@ -79,7 +88,7 @@ export default function TabProfileScreen() {
             <Text style={styles.content}>{profile?.city}</Text>
           </View>
           <View  style = {styles.logout}>
-            <Button mode='contained'onPress={() => navigation.navigate('LoginScreen')} >Sair</Button>
+            <Button mode='contained'onPress={checkAppExit} >Sair</Button>
           </View>
         </View>
       </ScrollView>
