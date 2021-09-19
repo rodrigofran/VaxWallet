@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActivityIndicator, SafeAreaView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Alert, SafeAreaView, StyleSheet } from 'react-native';
 import { Avatar} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -42,7 +42,7 @@ export default function TabProfileScreen() {
       setLoad(false);
     })
     .catch(() => {
-      alert("Não foi possível carregar as informações!");
+      Alert.alert("Atenção!","Não foi possível carregar as informações!");
     });
   }
   

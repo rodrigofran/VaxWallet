@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Image, Text, RefreshControl } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Image, Text, RefreshControl, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import VaxCardDetails from '../components/VaxCardDetails';
 import VaxDetailsModel from '../models/VaxDetailsModel';
@@ -28,7 +28,7 @@ export default function VaxDetailsScreen()
       setVaxDetails(response.data);
     })
     .catch(() => {
-      alert("Não foi possível carregar as informações!");
+      Alert.alert("Atenção!","Não foi possível carregar as informações!");
     });
     setRefreshing(false);
   };

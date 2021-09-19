@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { StyleSheet, FlatList, RefreshControl, Alert } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import Moment from 'moment';
 
@@ -36,7 +36,7 @@ export default function TabVaxScreen(){
       list = response.data;
     })
     .catch(() => {
-      alert("Não foi possível carregar as informações!");
+      Alert.alert("Atenção!","Não foi possível carregar as informações!");
     });
 
     setList(list);

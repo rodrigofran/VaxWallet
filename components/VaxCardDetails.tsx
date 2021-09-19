@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Image, Linking } from 'react-native';
+import { StyleSheet, Image, Linking, Alert } from 'react-native';
 import { Text, View} from './Themed';
 import Moment from 'moment';
 import DefaultButton from './DefaultButton';
@@ -18,7 +18,7 @@ export default function VaxCardDetails(props:Props)
       if (supported) {
         Linking.openURL(props.model.anvisaUrl);
       } else {
-        alert("Não foi possível abrir a Url: " + props.model.anvisaUrl);
+        Alert.alert("Atenção!","Não foi possível abrir a Url: " + props.model.anvisaUrl);
       }});
   }
 
