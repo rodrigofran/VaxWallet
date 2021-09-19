@@ -43,9 +43,7 @@ export default function TabProfileScreen() {
           <ActivityIndicator size="large" color={Colors.dark.tabIconSelected} />
         </View>
       <ScrollView style = {[styles.scrollView, !load && {display: 'flex'}]}>
-        <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator />
-        </View>
+        
         <View style={styles.picture}>
           <Avatar
             source={{
@@ -123,11 +121,12 @@ const styles = StyleSheet.create({
   },
   detail: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: '#fff',
-    height: 500,
+    height: '100%',
     width: '100%',
     marginTop: 20,
+    paddingTop: 30
   },
   input: {
     paddingBottom: 5,
