@@ -4,6 +4,7 @@ export default interface VaxDetailsModel
     name: string;
     urlImage: string;
     vaxDate: Date;
+    numberVax: number;
     daysToReforce: number;
     anvisaCode: number;
     anvisaUrl: string;

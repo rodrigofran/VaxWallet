@@ -35,8 +35,8 @@ export default function TabVaxScreen(){
     .then((response) => {
       list = response.data;
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
+      alert("Não foi possível carregar as informações!");
     });
 
     setList(list);

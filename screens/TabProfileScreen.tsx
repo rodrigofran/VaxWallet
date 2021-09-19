@@ -32,8 +32,8 @@ export default function TabProfileScreen() {
       setProfile(response.data);
       setLoad(false);
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
+      alert("Não foi possível carregar as informações!");
     });
   }
   

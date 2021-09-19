@@ -21,16 +21,14 @@ export default function VaxDetailsScreen()
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const getVaxDetails = async () => {
-    console.log(route.params.vaxId);
     setRefreshing(true);
 
     await axios.get<VaxDetailsModel>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/vaxDetails/'+ route.params.vaxId)
     .then((response) => {
-      console.log(response.data)
       setVaxDetails(response.data);
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
+      alert("Não foi possível carregar as informações!");
     });
     setRefreshing(false);
   };
@@ -39,6 +37,7 @@ export default function VaxDetailsScreen()
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         refreshControl = 
         {
           <RefreshControl
@@ -46,8 +45,8 @@ export default function VaxDetailsScreen()
             onRefresh={getVaxDetails}
             />
         }>
-        <View style = {[styles.containerDetails, !refreshing && {display: 'flex'}]}>
-          <VaxCardDetails model = {vaxDetails}></VaxCardDetails>
+        <View style = {[styles.containerVaxDetails, !refreshing && {display: 'flex'}]}>
+            <VaxCardDetails model = {vaxDetails}></VaxCardDetails>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -59,10 +58,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollView: {
-    flex: 1,
+    flex: 1, 
+    backgroundColor: '#fff',
   },
-  containerDetails: {
-    flex: 1,
+  containerVaxDetails: {
     display: 'none',
+    margin: 12,
   }
 });

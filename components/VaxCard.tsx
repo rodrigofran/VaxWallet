@@ -3,7 +3,7 @@ import { StyleSheet, Image } from 'react-native';
 import { Text, View} from '../components/Themed';
 import VaxModel from '../models/VaxModel';
 import Moment from 'moment';
-import VaxDetailButton from './VaxDetailButton';
+import DefaultButton from './DefaultButton';
 import { useNavigation } from '@react-navigation/native';
 
 type Props = {
@@ -30,7 +30,7 @@ export default function VaxCard (props: Props) {
           <View style = {styles.containerDetail}>
             <Text style= {styles.text}>Data vacinação:</Text>
             <Text style= {styles.textDate}>{Moment(props.model.vaxDate).format("DD/MM/YYYY") }</Text>
-            <VaxDetailButton title= {"DETALHE"} onPress={onPressVaxDetail}/>
+            <DefaultButton title= {"DETALHE"} onPress={onPressVaxDetail}/>
         </View>
       </View>
   ) 
