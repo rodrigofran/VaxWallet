@@ -1,11 +1,29 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import { BackHandler, StyleSheet } from 'react-native';
+import AlertExitApp from '../components/AlertExitApp';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function TabHomeScreen({ navigation }: RootTabScreenProps<'TabHome'>) {
+
+  useEffect(() => {
+    const backAction = () => {
+      if(navigation.getState().index === 0){
+        return AlertExitApp(undefined);
+      }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Olá, seja bem vindo!</Text>

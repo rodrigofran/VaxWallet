@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,13 +12,16 @@ import { ColorSchemeName, Image, StyleSheet } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import VaxModalScreen from '../screens/VaxModalScreen';
+
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabHomeScreen from '../screens/TabHomeScreen';
 import TabProfileScreen from '../screens/TabProfileScreen';
 import TabVaxScreen from '../screens/TabVaxScreen';
 import { RootStackParamList, RootTabParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import LoginScreen from '../screens/LoginScreen';
+import VaxDetailsScreen from '../screens/VaxDetailsScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   
@@ -49,12 +52,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions = {{animation: 'slide_from_right'}}>
+      <Stack.Screen name="LoginScreen" component = {LoginScreen} options={{headerShown: false }}  />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="VaxDetails" component={VaxDetailsScreen} options={{ title: 'Detalhe da vacinação', headerShown: true }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="VaxModal" component={VaxModalScreen} />
-      </Stack.Group>
     </Stack.Navigator>
   );
 }
@@ -75,7 +77,7 @@ function BottomTabNavigator() {
         tabBarActiveBackgroundColor: Colors[colorScheme].background,
         tabBarInactiveBackgroundColor: Colors[colorScheme].background,
         tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
+      }} >
       <BottomTab.Screen
         name="TabHome"
         component={TabHomeScreen}
