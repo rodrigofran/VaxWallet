@@ -26,11 +26,13 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Olá, seja bem vindo!</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <View style= {styles.containerTotalizer}>
-        <TotalizerVax description = {"Quantidade de vacinas tomadas"} totalizer = {60}></TotalizerVax>
-        <TotalizerVax description = {"Quantidade vacinas agendadas"} totalizer = {60}></TotalizerVax>
+        <View style= {styles.containerTotalizerItem} >
+          <TotalizerVax description = {"Quantidade de vacinas tomadas"} totalizer = {14}></TotalizerVax>
+        </View>
+        <View style= {styles.containerTotalizerItem} >
+          <TotalizerVax description = {"Quantidade de vacinas agendadas"} totalizer = {3}></TotalizerVax>
+        </View>
       </View>
       <View style={styles.mapView}>
         <Text style={styles.titleMap}>
@@ -39,8 +41,8 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
         <MapView
           style={styles.mapStyle}
           initialRegion={{
-            latitude: -23.602377551055696, 
-            longitude: -46.61159655287465,
+            latitude: -23.621100181624158, 
+            longitude: -46.61103850647531,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}>
@@ -106,20 +108,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 20,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   containerTotalizer: {
     flexDirection: 'row',
+    padding: 10,
+    backgroundColor: '#fff',
+  },
+  containerTotalizerItem: {
+    backgroundColor: '#fff',
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'grey'
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
   },
   qtdVacina: {
     fontSize: 40

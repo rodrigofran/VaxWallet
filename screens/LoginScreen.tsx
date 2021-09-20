@@ -1,40 +1,31 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
-import { createRef, useRef, useState } from 'react';
-import { View, KeyboardAvoidingView, SafeAreaView, StyleSheet, Image, Text } from 'react-native';
+import { useRef, useState } from 'react';
+import { View, KeyboardAvoidingView, StyleSheet, Image, Alert } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { Button, HelperText, TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 
 export default function LoginScreen() {
-
   const navigation = useNavigation()
   
   const [cpf, setCPF] = useState('');
   const [password, setPassword] = useState('')
   const cpfRef = useRef(null);
-  const [errorCpf, seterrorCpf] = useState(null)
-  const [errorPassword, seterrorPassword] = useState(null)
-  
-
 
   const validar = () => {
     if (cpf.trim().length ===0 && password.trim().length===0) {
-      return alert('O Campo CPF e Senha são obrigatórios')
+      return Alert.alert('Atenção','O Campo CPF e Senha são obrigatórios')
     }
-
     else if (cpf.trim().length===0) {
-      return alert('O Campo CPF é obrigatório')
+      return Alert.alert('Atenção','O Campo CPF é obrigatório')
     }
-
     else if (password.trim().length===0) {
-      return alert('O Campo Senha é obrigatório')
+      return Alert.alert('Atenção','O Campo Senha é obrigatório')
     }
-
     else {
       return navigation.navigate('Root')
     }
   }
-
   
   return (
     <KeyboardAvoidingView style={styles.background}>
