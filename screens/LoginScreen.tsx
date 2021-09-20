@@ -3,7 +3,7 @@ import * as React from 'react';
 import { createRef, useRef, useState } from 'react';
 import { View, KeyboardAvoidingView, SafeAreaView, StyleSheet, Image, Text } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 
 export default function LoginScreen() {
 
@@ -12,11 +12,29 @@ export default function LoginScreen() {
   const [cpf, setCPF] = useState('');
   const [password, setPassword] = useState('')
   const cpfRef = useRef(null);
+  const [errorCpf, seterrorCpf] = useState(null)
+  const [errorPassword, seterrorPassword] = useState(null)
   
-  /*
-  tirar os pontos do cpf na chamada da API
-  const unmask = cpfRef?.current.isValid();
-  */
+
+
+  const validar = () => {
+    if (cpf.trim().length ===0 && password.trim().length===0) {
+      return alert('O Campo CPF e Senha são obrigatórios')
+    }
+
+    else if (cpf.trim().length===0) {
+      return alert('O Campo CPF é obrigatório')
+    }
+
+    else if (password.trim().length===0) {
+      return alert('O Campo Senha é obrigatório')
+    }
+
+    else {
+      return navigation.navigate('Root')
+    }
+  }
+
   
   return (
     <KeyboardAvoidingView style={styles.background}>
@@ -44,6 +62,8 @@ export default function LoginScreen() {
               />
             )}
           />
+          
+
           <TextInput 
             
             style={styles.input}  
@@ -55,8 +75,8 @@ export default function LoginScreen() {
             }}>
             
           </TextInput>
-
-          <Button mode='contained' style = {styles.buttonView} onPress={() => navigation.navigate('Root')} >Login </Button>
+          
+          <Button mode='contained' style = {styles.buttonView} onPress={validar} >Login </Button>
         </View>
 
       
@@ -107,6 +127,8 @@ const styles = StyleSheet.create({
     borderRadius: 25
   }
 });
+
+
 
 
 
