@@ -3,10 +3,9 @@ import { useEffect } from 'react';
 import { BackHandler, StyleSheet, Dimensions } from 'react-native';
 import AlertExitApp from '../components/AlertExitApp';
 import MapView, {Marker} from 'react-native-maps';
-
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-
+import TotalizerVax from '../components/TotalizerVax';
 
 export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'>) {
 
@@ -29,13 +28,9 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
     <View style={styles.container}>
       <Text style={styles.title}>Olá, seja bem vindo!</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Text style={styles.textHome}>Quantidade de vacinas tomadas!
-      </Text>
-      <View style={styles.qtdVacinaView}>
-        <Text style={styles.qtdVacina}>60</Text>
-      </View>
-      <View style={styles.container}>
-        <Text>Última Vacina</Text>
+      <View style= {styles.containerTotalizer}>
+        <TotalizerVax description = {"Quantidade de vacinas tomadas"} totalizer = {60}></TotalizerVax>
+        <TotalizerVax description = {"Quantidade vacinas agendadas"} totalizer = {60}></TotalizerVax>
       </View>
       <View style={styles.mapView}>
         <Text style={styles.titleMap}>
@@ -48,9 +43,7 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
             longitude: -46.61159655287465,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
-            
           }}>
-
             <Marker
               coordinate={{
               latitude: -23.60242250856585, 
@@ -58,6 +51,7 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
               }}
               title= 'Vacinação COVID-19 PagueMenos'
               description='Av. Dr Gentil de Moura, 45 - Ipiranga'
+              icon = {require('../assets/images/vax-marker-icon.png')}
               >
             </Marker>
             <Marker
@@ -67,6 +61,7 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
               }}
               title= 'UBS Jarim da Saúde'
               description='R. Domingos de Rogatis, 187 - Jarim da Saúde'
+              icon = {require('../assets/images/vax-marker-icon.png')}
               >              
             </Marker>
             <Marker
@@ -76,6 +71,7 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
               }}
               title= 'UBS Moinho Velho II'
               description='R. Belgrado, 323 - Vila Moinho Velho'
+              icon = {require('../assets/images/vax-marker-icon.png')}
               >              
             </Marker>
             <Marker
@@ -85,6 +81,7 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
               }}
               title= 'Hospital Dom Alvarenga'
               description='Av. Nazaré, 1361 - Ipiranga'
+              icon = {require('../assets/images/vax-marker-icon.png')}
               >              
             </Marker>
             <Marker
@@ -94,14 +91,11 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
               }}
               title= 'UBS Prof Jandira Massur'
               description='Rua Dom Lúcio de Sousa, 372 - Vila Gumercindo'
+              icon = {require('../assets/images/vax-marker-icon.png')}
               >              
             </Marker>
-
-           
         </MapView>
       </View>
-      
-
     </View>
   );
 }
@@ -113,60 +107,35 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingTop: 20,
     backgroundColor: '#fff'
-    
-
+  },
+  containerTotalizer: {
+    flexDirection: 'row',
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'grey'
-    
   },
   separator: {
     marginVertical: 30,
     height: 1,
     width: '80%',
   },
-
-  qtdVacinaView: {
-    width: 120,
-    height: 120,
-    borderRadius: 500,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowRadius: 6,
-  },
-
   qtdVacina: {
     fontSize: 40
   },
-
-  textHome: {
-    fontSize: 20,
-    color: 'black',
-    backgroundColor: '#fff',
-    marginBottom: 20
-  },
-
   mapView: {
     alignItems: 'center',
     justifyContent: 'center',
-    
   },
-
   mapStyle: {
     width: Dimensions.get('window').width,
     height: '100%'
   },
-
- 
-
   titleMap: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
     paddingTop: 30
-    
   },
-
 });
