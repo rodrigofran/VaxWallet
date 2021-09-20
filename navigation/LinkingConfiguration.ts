@@ -32,7 +32,7 @@ const linking: LinkingOptions<RootStackParamList> = {
           },
         },
       },
-      VaxModal: 'vaxModal',
+      VaxDetails: 'detalheVacina',
       NotFound: '*',
     },
   },
