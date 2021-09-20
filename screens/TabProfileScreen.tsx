@@ -47,7 +47,7 @@ export default function TabProfileScreen() {
         <View style={styles.picture}>
           <Avatar
             source={{
-              uri: 'https://i.pinimg.com/originals/4c/41/ef/4c41eff22888e5e5d8277cf5121691db.png'
+              uri: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png'
             }}
             size={120}
           />
