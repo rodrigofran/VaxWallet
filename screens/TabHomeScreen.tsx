@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { BackHandler, StyleSheet } from 'react-native';
+import { BackHandler, StyleSheet, Dimensions } from 'react-native';
 import AlertExitApp from '../components/AlertExitApp';
-import { Dimensions, StyleSheet } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 
 import { Text, View } from '../components/Themed';
+import { RootTabScreenProps } from '../types';
 
 
-export default function TabHomeScreen() {
+export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'>) {
 
   useEffect(() => {
     const backAction = () => {
