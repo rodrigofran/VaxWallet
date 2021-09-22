@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 
-import { Provider as PaperProvider, TextInput } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';

@@ -25,7 +25,6 @@ export default function TabProfileScreen() {
   const [load, setLoad] = useState(true);
 
   const navigation = useNavigation();
-
   const checkAppExit = () => 
   {
     AlertExitApp(() => 
@@ -48,15 +47,15 @@ export default function TabProfileScreen() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[styles.horizontal, !load && {display: 'none'}]}>
+        <View style={[styles.horizontal, !load && {display: 'none'}]}>
           <ActivityIndicator size="large" color={Colors.dark.tabIconSelected} />
         </View>
       <ScrollView style = {[styles.scrollView, !load && {display: 'flex'}]}>
         
         <View style={styles.picture}>
-          <Avatar
+          <Avatar avatarStyle={styles.avatar}
             source={{
-              uri: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png'
+              uri: 'https://st3.depositphotos.com/6672868/13701/v/380/depositphotos_137014128-stock-illustration-user-profile-icon.jpg'
             }}
             size={120}
           />
@@ -116,7 +115,10 @@ const styles = StyleSheet.create({
     flex: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40
+    marginTop: 40,
+  },
+  avatar: {
+    borderRadius: 100
   },
   ViewTitle: {
     marginTop: 20,

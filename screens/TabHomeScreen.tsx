@@ -1,15 +1,23 @@
 import * as React from 'react';
-import { useEffect } from 'react';
-import { BackHandler, StyleSheet, Dimensions } from 'react-native';
+import { useEffect, useState } from 'react';
+import { BackHandler, StyleSheet, Dimensions, Alert, ActivityIndicator } from 'react-native';
 import AlertExitApp from '../components/AlertExitApp';
 import MapView, {Marker} from 'react-native-maps';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import TotalizerVax from '../components/TotalizerVax';
+import TotalizerVaxModel from '../models/TotalizerVaxModel';
+import axios from 'axios';
+import Colors from '../constants/Colors';
 
 export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'>) {
 
+  const [totalizer, setTotalizer] = useState<TotalizerVaxModel>({countSchedulerVax: 0, countVax : 0 });
+  const [load, setLoad] = useState(true);
+
   useEffect(() => {
+    getTotalizer();
+
     const backAction = () => {
       if(navigation.getState().index === 0){
         return AlertExitApp(undefined);
@@ -24,14 +32,30 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
     return () => backHandler.remove();
   }, []);
 
+  const getTotalizer = async () => 
+  {
+    await axios.get<TotalizerVaxModel>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/totalizer/1')
+    .then((response) => {
+      setTotalizer(response.data);
+      setLoad(false);
+    })
+    .catch(() => {
+      setLoad(false);
+      Alert.alert("Atenção!","Não foi possível carregar as informações!");
+    });
+  }
+
   return (
     <View style={styles.container}>
-      <View style= {styles.containerTotalizer}>
+      <View style={[styles.horizontal, !load && {display: 'none'}]}>
+          <ActivityIndicator size="large" color={Colors.dark.tabIconSelected} />
+      </View>
+      <View style = {[styles.containerTotalizer, !load && {display: 'flex'}]}>
         <View style= {styles.containerTotalizerItem} >
-          <TotalizerVax description = {"Quantidade de vacinas tomadas"} totalizer = {14}></TotalizerVax>
+          <TotalizerVax description = {"Quantidade de vacinas tomadas"} totalizer = {totalizer.countVax}></TotalizerVax>
         </View>
         <View style= {styles.containerTotalizerItem} >
-          <TotalizerVax description = {"Quantidade de vacinas agendadas"} totalizer = {3}></TotalizerVax>
+          <TotalizerVax description = {"Quantidade de vacinas agendadas"} totalizer = {totalizer.countSchedulerVax}></TotalizerVax>
         </View>
       </View>
       <View style={styles.mapView}>
@@ -111,6 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   containerTotalizer: {
+    display: 'none',
     flexDirection: 'row',
     padding: 10,
     backgroundColor: '#fff',
@@ -121,6 +146,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
+  },
+  horizontal: {
+    flex: 1,
+    padding: 30,
+    backgroundColor: '#fff'
   },
   title: {
     fontSize: 20,

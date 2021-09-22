@@ -15,7 +15,7 @@ export default function TotalizerVax (props: Props) {
           <Text style={styles.text}>{props.description}</Text>
         </View>
         <View style={styles.containerTotalizer}>
-          <Text style={[styles.textTotalizer, {color: Colors.dark.textDark}]}>{props.totalizer}</Text>
+          <Text style={[styles.textTotalizer]}>{props.totalizer}</Text>
         </View>
       </View>
   )
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   containerText: {
     marginTop: 12,
-    padding: 5,
+    padding: 12,
     backgroundColor: Colors.dark.background,
   },
   containerTotalizer: {
@@ -43,10 +43,11 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     marginBottom: 20,
     borderRadius: 100,
-    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#fff'
   },
   textTotalizer: {
-    fontSize: 40
+    fontSize: 40,
   },
   text: {
     fontSize: 20,

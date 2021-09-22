@@ -12,7 +12,7 @@ interface Props{
 
 export default class DefaultButton extends React.Component<Props>{
 
-    constructor(props:Props){
+  constructor(props:Props){
         super(props);
     }
 
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12
   },
   appButtonText: {
-    fontFamily: 'Roboto',
     color: "#fff",
     fontWeight: "bold",
     alignSelf: "center",

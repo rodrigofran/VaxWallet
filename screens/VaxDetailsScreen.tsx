@@ -23,7 +23,7 @@ export default function VaxDetailsScreen()
   const getVaxDetails = async () => {
     setRefreshing(true);
 
-    await axios.get<VaxDetailsModel>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/vaxDetails/'+ route.params.vaxId)
+    await axios.get<VaxDetailsModel>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/vaxDetails/'+ route.params.id)
     .then((response) => {
       setVaxDetails(response.data);
     })
