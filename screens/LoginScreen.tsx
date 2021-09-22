@@ -36,7 +36,6 @@ export default function LoginScreen() {
         />
       </View>
         <View style={styles.container}>
-          
           <TextInput
             style={styles.input}
             label="CPF"
@@ -44,7 +43,10 @@ export default function LoginScreen() {
               <TextInputMask
                 {...props}
                 value={cpf}
-                type={"cpf"}
+                type={"custom"}
+                options={{
+                  mask: '999.999.999-99'
+                }}
                 ref={cpfRef}
                 onChangeText={(text) => {
                   props.onChangeText?.(text);
@@ -53,10 +55,7 @@ export default function LoginScreen() {
               />
             )}
           />
-          
-
           <TextInput 
-            
             style={styles.input}  
             label='Senha' 
             secureTextEntry={true}
@@ -64,13 +63,9 @@ export default function LoginScreen() {
             onChangeText={(text) => {
             setPassword(text);
             }}>
-            
           </TextInput>
-          
-          <Button mode='contained' style = {styles.buttonView} onPress={validar} >Login </Button>
+          <Button mode='contained' style = {styles.buttonView} onPress={validar}>Login</Button>
         </View>
-
-      
     </KeyboardAvoidingView>
       
   );
@@ -110,7 +105,7 @@ const styles = StyleSheet.create({
     padding: 15,
     
   },
-  
+
   buttonView: {
     width: '90%',
     padding: 4,

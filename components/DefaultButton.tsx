@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12
   },
   appButtonText: {
-    fontFamily: 'Roboto',
     color: "#fff",
     fontWeight: "bold",
     alignSelf: "center",
