@@ -1,7 +1,6 @@
 import { Alert, BackHandler } from 'react-native';
 
-
- const AlertExitApp = (callBack: Function | undefined) =>  {
+const AlertExitApp = (callBack: Function | undefined) =>  {
   Alert.alert("Atenção!", "Tem certeza que deseja sair do app?", [
     {
       text: "Não",

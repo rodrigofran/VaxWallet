@@ -67,7 +67,6 @@ export default function LoginScreen() {
           <Button mode='contained' style = {styles.buttonView} onPress={validar}>Login</Button>
         </View>
     </KeyboardAvoidingView>
-      
   );
 }
 
@@ -78,34 +77,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
   },
-
   containerLogo: {
     flex: 1,
     justifyContent: 'center',
 
   },
-
   logo: {
     width: 350,
     height: 80
   },
-
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '90%',
   },
-
   input: {
     width: '90%',
     marginBottom: 15,
     color: '#222',
     fontSize: 20,
     padding: 15,
-    
   },
-
   buttonView: {
     width: '90%',
     padding: 4,
@@ -113,9 +106,3 @@ const styles = StyleSheet.create({
     borderRadius: 25
   }
 });
-
-
-
-
-
-
