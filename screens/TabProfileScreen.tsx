@@ -47,7 +47,7 @@ export default function TabProfileScreen() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[styles.horizontal, !load && {display: 'none'}]}>
+        <View style={[styles.horizontal, !load && {display: 'none'}]}>
           <ActivityIndicator size="large" color={Colors.dark.tabIconSelected} />
         </View>
       <ScrollView style = {[styles.scrollView, !load && {display: 'flex'}]}>
