@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 20,
+    backgroundColor: '#fff',
   },
   containerTotalizer: {
     flexDirection: 'row',
