@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import { View, KeyboardAvoidingView, StyleSheet, Image, Alert } from 'react-native';
+import { View, KeyboardAvoidingView, StyleSheet, Image, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button, TextInput } from 'react-native-paper';
 
@@ -28,45 +28,49 @@ export default function LoginScreen() {
   }
   
   return (
-    <KeyboardAvoidingView style={styles.background}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <KeyboardAvoidingView style={styles.background}
+      behavior="padding">
       <View style={styles.containerLogo}>
         <Image
         style={styles.logo}
         source={require('../assets/images/logo2.png')  }
         />
       </View>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            label="CPF"
-            render={(props) => (
-              <TextInputMask
-                {...props}
-                value={cpf}
-                type={"custom"}
-                options={{
-                  mask: '999.999.999-99'
-                }}
-                ref={cpfRef}
-                onChangeText={(text) => {
-                  props.onChangeText?.(text);
-                  setCPF(text);
-                }}  
-              />
-            )}
-          />
-          <TextInput 
-            style={styles.input}  
-            label='Senha' 
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(text) => {
-            setPassword(text);
-            }}>
-          </TextInput>
-          <Button mode='contained' style = {styles.buttonView} onPress={validar}>Login</Button>
-        </View>
-    </KeyboardAvoidingView>
+      
+          <View style={styles.container}>
+            <TextInput
+              style={styles.input}
+              label="CPF"
+              render={(props) => (
+                <TextInputMask
+                  {...props}
+                  value={cpf}
+                  type={"custom"}
+                  options={{
+                    mask: '999.999.999-99'
+                  }}
+                  ref={cpfRef}
+                  onChangeText={(text) => {
+                    props.onChangeText?.(text);
+                    setCPF(text);
+                  }}  
+                />
+              )}
+            />
+            <TextInput 
+              style={styles.input}  
+              label='Senha' 
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(text) => {
+              setPassword(text);
+              }}>
+            </TextInput>
+            <Button mode='contained' style = {styles.buttonView} onPress={validar}>Login</Button>
+          </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>  
   );
 }
 
