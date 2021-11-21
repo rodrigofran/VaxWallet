@@ -26,6 +26,12 @@ export default function LoginScreen() {
       return navigation.navigate('Root')
     }
   }
+
+  const navigateToRegister = () => {
+    return navigation.navigate('RegisterScreen')
+  }
+
+  
   
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -37,39 +43,39 @@ export default function LoginScreen() {
         source={require('../assets/images/logo2.png')  }
         />
       </View>
-      
-          <View style={styles.container}>
-            <TextInput
-              style={styles.input}
-              label="CPF"
-              render={(props) => (
-                <TextInputMask
-                  {...props}
-                  value={cpf}
-                  type={"custom"}
-                  options={{
-                    mask: '999.999.999-99'
-                  }}
-                  ref={cpfRef}
-                  onChangeText={(text) => {
-                    props.onChangeText?.(text);
-                    setCPF(text);
-                  }}  
-                />
-              )}
-            />
-            <TextInput 
-              style={styles.input}  
-              label='Senha' 
-              secureTextEntry={true}
-              value={password}
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          label="CPF"
+          render={(props) => (
+            <TextInputMask
+              {...props}
+              value={cpf}
+              type={"custom"}
+              options={{
+                mask: '99999999999'
+              }}
+              ref={cpfRef}
               onChangeText={(text) => {
-              setPassword(text);
-              }}>
-            </TextInput>
-            <Button mode='contained' style = {styles.buttonView} onPress={validar}>Login</Button>
-          </View>
-      </KeyboardAvoidingView>
+                props.onChangeText?.(text);
+                setCPF(text);
+              }}  
+            />
+          )}
+        />
+        <TextInput 
+          style={styles.input}  
+          label='Senha' 
+          secureTextEntry={true}
+          value={password}
+          onChangeText={(text) => {
+          setPassword(text);
+          }}>
+        </TextInput>
+        <Button mode='contained' style = {styles.buttonLogin} onPress={validar}>Login</Button>
+        <Button mode='text' style = {styles.buttonLogin} onPress={navigateToRegister}>criar nova conta</Button>
+      </View>
+    </KeyboardAvoidingView>
     </TouchableWithoutFeedback>  
   );
 }
@@ -103,10 +109,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 15,
   },
-  buttonView: {
+  buttonLogin: {
     width: '90%',
     padding: 4,
     marginTop: 30,
-    borderRadius: 25
-  }
+    borderRadius: 25,
+    
+  },
 });

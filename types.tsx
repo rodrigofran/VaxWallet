@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   NotFound: undefined;
   LoginScreen: undefined;
+  RegisterScreen: undefined;
   VaxDetails: VaxModel;
 };
 

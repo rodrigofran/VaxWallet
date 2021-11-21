@@ -16,6 +16,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LoginScreen from '../screens/LoginScreen';
 import VaxDetailsScreen from '../screens/VaxDetailsScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   
@@ -44,9 +45,11 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions = {{animation: 'slide_from_right'}}>
       <Stack.Screen name="LoginScreen" component = {LoginScreen} options={{headerShown: false }}  />
+      <Stack.Screen name='RegisterScreen' component = {RegisterScreen} options={{headerShown: false }}  />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="VaxDetails" component={VaxDetailsScreen} options={{ title: 'Detalhe da vacinação', headerShown: true }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      
     </Stack.Navigator>
   );
 }
