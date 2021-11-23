@@ -3,21 +3,19 @@ import * as React from 'react';
 import { useRef, useState } from 'react';
 import { View, KeyboardAvoidingView, StyleSheet, Image, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 
 export default function LoginScreen() {
   const navigation = useNavigation()
   
   const [cpf, setCPF] = useState('');
+  const [errorcpf, seterrorCPF] = useState('');
   const [password, setPassword] = useState('')
   const cpfRef = useRef(null);
 
   const validar = () => {
-    if (cpf.trim().length ===0 && password.trim().length===0) {
-      return Alert.alert('Atenção','O Campo CPF e Senha são obrigatórios')
-    }
-    else if (cpf.trim().length===0) {
-      return Alert.alert('Atenção','O Campo CPF é obrigatório')
+    if (cpf.trim().length===0 && password.trim().length===0 ) {
+      return Alert.alert('Atenção','O Campo Senha é obrigatório')
     }
     else if (password.trim().length===0) {
       return Alert.alert('Atenção','O Campo Senha é obrigatório')
@@ -26,6 +24,10 @@ export default function LoginScreen() {
       return navigation.navigate('Root')
     }
   }
+
+  const hasErrors = () => {
+    return false;
+  };
 
   const navigateToRegister = () => {
     return navigation.navigate('RegisterScreen')
@@ -63,6 +65,9 @@ export default function LoginScreen() {
             />
           )}
         />
+        <HelperText type="error" visible={hasErrors()}>
+        Email address is invalid!
+        </HelperText>
         <TextInput 
           style={styles.input}  
           label='Senha' 

@@ -119,9 +119,9 @@ export default function RegisterScreen() {
             style={styles.input}  
             label='Digite novamente sua senha.' 
             secureTextEntry={true}
-            value={password}
+            value={RepeatPassword}
             onChangeText={(text) => {
-            setPassword(text);
+            setRepeatPassword(text);
             }}>
           </TextInput>
           <TextInput
@@ -277,8 +277,8 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    width: '100%',
-    marginBottom: 40
+    width: '100%'
+    
   },
   containerLogo: {
     justifyContent: 'center',
@@ -311,8 +311,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: '90%',
+    justifyContent: 'center',
+    width: '100%',
   },
   input: {
     flex: 1,
