@@ -9,32 +9,23 @@ export default function LoginScreen() {
   const navigation = useNavigation()
   
   const [cpf, setCPF] = useState('');
-  const [errorcpf, seterrorCPF] = useState('');
+  const [hasErrors, setHasErrors] = useState(false);
   const [password, setPassword] = useState('')
   const cpfRef = useRef(null);
 
   const validar = () => {
-    if (cpf.trim().length===0 && password.trim().length===0 ) {
-      return Alert.alert('Atenção','O Campo Senha é obrigatório')
+    if (cpf.trim().length===0 || password.trim().length===0) {
+      setHasErrors(true)
+      Alert.alert('Campos inválidos')
+      return 
     }
-    else if (password.trim().length===0) {
-      return Alert.alert('Atenção','O Campo Senha é obrigatório')
-    }
-    else {
-      return navigation.navigate('Root')
-    }
+    return navigation.navigate('Root')
   }
-
-  const hasErrors = () => {
-    return false;
-  };
 
   const navigateToRegister = () => {
     return navigation.navigate('RegisterScreen')
   }
 
-  
-  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <KeyboardAvoidingView style={styles.background}
@@ -65,8 +56,8 @@ export default function LoginScreen() {
             />
           )}
         />
-        <HelperText type="error" visible={hasErrors()}>
-        Email address is invalid!
+        <HelperText type="error" visible={hasErrors && cpf.trim().length===0}>
+        Campo CPF é obrigatório
         </HelperText>
         <TextInput 
           style={styles.input}  
@@ -77,6 +68,9 @@ export default function LoginScreen() {
           setPassword(text);
           }}>
         </TextInput>
+        <HelperText type="error" visible={hasErrors && password.trim().length===0}>
+        Campo Senha é obrigatório
+        </HelperText>
         <Button mode='contained' style = {styles.buttonLogin} onPress={validar}>Login</Button>
         <Button mode='text' style = {styles.buttonLogin} onPress={navigateToRegister}>criar nova conta</Button>
       </View>
