@@ -4,6 +4,10 @@ import { useRef, useState } from 'react';
 import { View, KeyboardAvoidingView, StyleSheet, Image, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button, HelperText, TextInput } from 'react-native-paper';
+import axios from 'axios';
+import LoginModelOutput from '../models/LoginModelOutput';
+import LoginModelInput from '../models/LoginModelInput';
+import * as SecureStore from 'expo-secure-store';
 
 export default function LoginScreen() {
   const navigation = useNavigation()
@@ -12,14 +16,40 @@ export default function LoginScreen() {
   const [hasErrors, setHasErrors] = useState(false);
   const [password, setPassword] = useState('')
   const cpfRef = useRef(null);
+  const [codigoCidado, setCodigoCidado] = useState(0);
 
-  const validar = () => {
-    if (cpf.trim().length===0 || password.trim().length===0) {
-      setHasErrors(true)
-      Alert.alert('Campos inválidos')
-      return 
+  const validar = async () => {
+    if (cpf.trim().length===0 || password.trim().length===0)
+    {
+      setHasErrors(true);
+      Alert.alert('Campos inválidos!');
+      return;
     }
-    return navigation.navigate('Root')
+    await checkLogin();
+    if(codigoCidado <= 0)
+    {
+      Alert.alert('Cpf ou Senha inválidos!');
+      return;
+    }
+    return navigation.navigate('Root');
+  }
+
+  const checkLogin = async () => 
+  {
+    const request: LoginModelInput = {
+      cpf : Number(cpf),
+      senha: password
+    };    
+
+    await axios.post<LoginModelOutput>('https://corporate-f5.herokuapp.com/Autenticacao', request)
+    .then(async (response) => {
+      setCodigoCidado(response.data.idCidadao);
+      await SecureStore.setItemAsync('secure_cidadao_id', String(codigoCidado));
+    })
+    .catch(() => {
+      setCodigoCidado(0);
+      Alert.alert("Atenção!","Não foi possível carregar as informações!");
+    });
   }
 
   const navigateToRegister = () => {

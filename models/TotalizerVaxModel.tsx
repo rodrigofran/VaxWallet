@@ -1,5 +1,5 @@
 export default interface TotalizerVaxModel 
 {
-    countVax: number;
-    countSchedulerVax: number;
+    qtdVacinasRecebidas: number;
+    qtdVacinasProgramadas: number;
 }

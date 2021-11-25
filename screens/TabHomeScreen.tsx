@@ -9,10 +9,11 @@ import TotalizerVax from '../components/TotalizerVax';
 import TotalizerVaxModel from '../models/TotalizerVaxModel';
 import axios from 'axios';
 import Colors from '../constants/Colors';
+import * as SecureStore from 'expo-secure-store';
 
 export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'>) {
 
-  const [totalizer, setTotalizer] = useState<TotalizerVaxModel>({countSchedulerVax: 0, countVax : 0 });
+  const [totalizer, setTotalizer] = useState<TotalizerVaxModel>({qtdVacinasProgramadas: 0, qtdVacinasRecebidas : 0 });
   const [load, setLoad] = useState(true);
 
   useEffect(() => {
@@ -34,7 +35,9 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
 
   const getTotalizer = async () => 
   {
-    await axios.get<TotalizerVaxModel>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/totalizer/1')
+    let cidadaoId = await SecureStore.getItemAsync('secure_cidadao_id');
+
+    await axios.get<TotalizerVaxModel>('https://corporate-f5.herokuapp.com/totalizer/'+ cidadaoId)
     .then((response) => {
       setTotalizer(response.data);
       setLoad(false);
@@ -52,10 +55,10 @@ export default function TabHomeScreen({navigation}: RootTabScreenProps<'TabHome'
       </View>
       <View style = {[styles.containerTotalizer, !load && {display: 'flex'}]}>
         <View style= {styles.containerTotalizerItem} >
-          <TotalizerVax description = {"Quantidade de vacinas tomadas"} totalizer = {totalizer.countVax}></TotalizerVax>
+          <TotalizerVax description = {"Quantidade de vacinas tomadas"} totalizer = {totalizer.qtdVacinasRecebidas}></TotalizerVax>
         </View>
         <View style= {styles.containerTotalizerItem} >
-          <TotalizerVax description = {"Quantidade de vacinas agendadas"} totalizer = {totalizer.countSchedulerVax}></TotalizerVax>
+          <TotalizerVax description = {"Quantidade de vacinas agendadas"} totalizer = {totalizer.qtdVacinasProgramadas}></TotalizerVax>
         </View>
       </View>
       <View style={styles.mapView}>
