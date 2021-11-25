@@ -20,16 +20,20 @@ export default function VaxCard (props: Props) {
 
   return(
       <View style = {styles.container}>
-          <View style = {styles.containerImage}>
-            <Image
-              style={styles.vaxImage}
-              source={{uri: props.model.urlImage}}
-            />
-            <Text style= {styles.text}>{props.model.name}</Text>
-          </View>  
+          <View style = {styles.containerColumn}>
+            <View style = {styles.containerRow}>
+              <Text style= {styles.text}>{props.model.nomeVacina}</Text>
+            </View>
+            <View style = {styles.containerImage}>
+              <Image
+                style={styles.vaxImage}
+                source={{uri: props.model.urlImage}}
+              />
+            </View>  
+          </View>
           <View style = {styles.containerDetail}>
-            <Text style= {styles.text}>Data vacinação:</Text>
-            <Text style= {styles.textDate}>{Moment(props.model.vaxDate).format("DD/MM/YYYY") }</Text>
+            <Text style= {styles.textLabel}>Data vacinação:</Text>
+            <Text style= {styles.textDate}>{Moment(props.model.dataVacinacao).format("DD/MM/YYYY") }</Text>
             <DefaultButton title= {"DETALHE"} onPress={onPressVaxDetail}/>
         </View>
       </View>
@@ -48,23 +52,39 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
+  containerRow: {
+    flex: 2,
+    flexDirection:'row',
+  },
+  containerColumn: {
+    flex: 1,
+    flexDirection:'column',
+  },
   containerImage:{
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    margin: 10
   },
   vaxImage: {
     width: 36,
     height: 92,
   },
   containerDetail:{
-    flex: 3,
+    flex: 2,
     marginLeft: 24,
   },
   text:{
     fontStyle: 'normal',
     fontWeight: 'bold',
+    fontSize: 16,
+    lineHeight: 25,
+    textAlign: 'center',
+  },
+  textLabel:{
+    fontStyle: 'normal',
+    fontWeight: 'bold',
     fontSize: 14,
-    lineHeight: 16,
+    lineHeight: 25,
     textAlign: 'center',
   },
   textDate:{

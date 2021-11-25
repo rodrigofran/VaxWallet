@@ -9,6 +9,7 @@ import VaxModel from '../models/VaxModel';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import * as SecureStore from 'expo-secure-store';
 
 export default function TabVaxScreen(){
   
@@ -30,8 +31,10 @@ export default function TabVaxScreen(){
     setSearch("");
     setRefreshing(true);
 
+    let cidadaoId = await SecureStore.getItemAsync('secure_cidadao_id');
+
     var list = new Array<VaxModel>();
-    await axios.get<Array<VaxModel>>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/find')
+    await axios.get<Array<VaxModel>>('https://corporate-f5.herokuapp.com/EventoVacina/per/' + cidadaoId)
     .then((response) => {
       list = response.data;
     })
@@ -49,8 +52,8 @@ export default function TabVaxScreen(){
     setSearch(search);
     if(search.length > 1) {
       let listFiltered = list.filter((model) => 
-        model.name.toLowerCase().includes(search.toLowerCase()) ||
-        Moment(model.vaxDate).format("DD/MM/YYYY").includes(search.toLowerCase()));
+        model.nomeVacina.toLowerCase().includes(search.toLowerCase()) ||
+        Moment(model.dataVacinacao).format("DD/MM/YYYY").includes(search.toLowerCase()));
       setListFiltered(listFiltered);
       return listFiltered;
     }
@@ -75,7 +78,7 @@ export default function TabVaxScreen(){
             />
         }
         renderItem={({item}) => <VaxCard model = {item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => String(item.idEventoVacina)}
       />
     </View>);
 }

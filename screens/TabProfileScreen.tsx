@@ -28,8 +28,9 @@ export default function TabProfileScreen() {
   const navigation = useNavigation();
   const checkAppExit = () => 
   {
-    AlertExitApp(() => 
+    AlertExitApp(async () => 
     {
+      await SecureStore.setItemAsync('secure_cidadao_id', "0");
       navigation.navigate('LoginScreen');
     });
   }

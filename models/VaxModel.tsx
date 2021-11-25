@@ -1,8 +1,8 @@
 export default interface VaxModel 
 {
-    id: string;
-    vaxId: number;
-    name: string;
+    idEventoVacina: number;
+    idVacina: number;
+    nomeVacina: string;
     urlImage: string;
-    vaxDate: Date;
+    dataVacinacao: Date;
 }
