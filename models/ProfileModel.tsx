@@ -1,10 +1,12 @@
 export default interface ProfileModel 
 {
-    id: number;
-    firstName: string;
-    lastName: string;
-    phone: string;
+    idCidadao: number;
+    nome: string;
     email: string;
-    country: string;
-    city: string;
+    pais: string;
+    uf: string;
+    cidade: string;
+    bairro: string;
+    logradouro: string;
+    numeroEndereco: number;
 }

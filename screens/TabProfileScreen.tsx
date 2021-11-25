@@ -14,6 +14,7 @@ import ProfileModel from '../models/ProfileModel';
 import axios from 'axios';
 import Colors from '../constants/Colors';
 import AlertExitApp from '../components/AlertExitApp';
+import * as SecureStore from 'expo-secure-store';
 
 export default function TabProfileScreen() {
 
@@ -35,7 +36,9 @@ export default function TabProfileScreen() {
 
   const getProfile = async () => 
   {
-    await axios.get<ProfileModel>('https://602ea2aa4410730017c5111c.mockapi.io/v1/api/vacine/profile/1')
+    let cidadaoId = await SecureStore.getItemAsync('secure_cidadao_id');
+
+    await axios.get<ProfileModel>('https://corporate-f5.herokuapp.com/Cidadao/'+ cidadaoId)
     .then((response) => {
       setProfile(response.data);
       setLoad(false);
@@ -60,29 +63,29 @@ export default function TabProfileScreen() {
             size={120}
           />
           <View style={styles.ViewTitle}>
-            <Text style={styles.title}>{"Olá,"} {profile?.firstName}</Text>
+            <Text style={styles.title}>{"Olá,"} {profile?.nome.split(' ')[0]}</Text>
           </View>
         </View>
         <View style={styles.detail}>
           <View style={styles.input}>
-            <FontAwesome name='user-o'size={17} style={styles.icon}/>
-            <Text style={styles.content}>{profile?.firstName} {profile?.lastName}</Text>
+            <FontAwesome name='user-o' size={17} style={styles.icon}/>
+            <Text style={styles.content}>{profile?.nome}</Text>
           </View>
           <View style={styles.input}>
-            <Feather name='phone'size={17} style={styles.icon}/>
-            <Text style={styles.content}>{profile?.phone}</Text>
-          </View>
-          <View style={styles.input}>
-            <FontAwesome name='envelope-o'size={17} style={styles.icon}/>
+            <FontAwesome name='envelope-o' size={17} style={styles.icon}/>
             <Text style={styles.content}>{profile?.email}</Text>
           </View>
           <View style={styles.input}>
-            <FontAwesome name='globe'size={17} style={styles.icon}/>
-            <Text style={styles.content}>{profile?.country}</Text>
+            <FontAwesome name='globe' size={17} style={styles.icon}/>
+            <Text style={styles.content}>{profile?.pais}</Text>
           </View>
           <View style={styles.input}>
-            <Icon name='map-marker-outline'size={17} style={styles.icon}/>
-            <Text style={styles.content}>{profile?.city}</Text>
+            <Icon name='map-marker-outline' size={17} style={styles.icon}/>
+            <Text style={styles.content}>{profile?.uf}/{profile?.cidade}, {profile?.bairro}, Nº {profile?.numeroEndereco}</Text>
+          </View>
+          <View style={styles.input}>
+            <Icon name='map' size={17} style={styles.icon}/>
+            <Text style={styles.content}>{profile?.logradouro}</Text>
           </View>
           <View  style = {styles.logout}>
             <Button mode='contained'onPress={checkAppExit} >Sair</Button>
