@@ -4,5 +4,9 @@ export default interface VaxModel
     idVacina: number;
     nomeVacina: string;
     urlImage: string;
+    urlAnvisa: string;
     dataVacinacao: Date;
+    dataReforco: Date;
+    numeroDose: number;
+    codigoAnvisa: string;
 }
