@@ -44,6 +44,7 @@ export default function TabProfileScreen() {
       setLoad(false);
     })
     .catch(() => {
+      setLoad(false);
       Alert.alert("Atenção!","Não foi possível carregar as informações!");
     });
   }

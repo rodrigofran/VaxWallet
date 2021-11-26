@@ -1,13 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import moment from 'moment';
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import { View,Text,KeyboardAvoidingView, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
+import { View,Text,KeyboardAvoidingView, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback, SafeAreaView, ActivityIndicator } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button, TextInput } from 'react-native-paper';
+import Colors from '../constants/Colors';
+import RegisterModel from '../models/RegisterModel';
 
 export default function RegisterScreen() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   
   const cpfRef = useRef(null);
   const rgRef = useRef(null);
@@ -16,14 +20,14 @@ export default function RegisterScreen() {
   const CEPRef = useRef(null);
 
   const [cpf, setCPF] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [primeiroNome, setPrimeiroNome] = useState('');
+  const [sobrenome, setSobrenome] = useState('');
   const [password, setPassword] = useState('')
   const [RepeatPassword, setRepeatPassword] = useState('')
   const [email, setEmail] = useState('');
   const [dtNasc, setDtNasc] = useState('');
   const [rg, setRg] = useState('');
-  const [sexo, setSexo] = useState('');
+  const [sexo, setSexo] = useState(1);
   const [nomeMae, setNomeMae] = useState('');
   const [logradouro, setLogradouro] = useState('');
   const [numEnder, setNumEnder] = useState('');
@@ -33,49 +37,135 @@ export default function RegisterScreen() {
   const [UF, setUF] = useState('');
   const [pais, setPais] = useState('');
   const [CEP, setCEP] = useState('');
+  const [load, setLoad] = useState(false);
 
   const navigateToLogin = () => {
     return navigation.navigate('LoginScreen')
   }
 
+  const registerApi = async (request:RegisterModel) => 
+  {
+    setLoad(true);
+
+    await axios.post<RegisterModel>('https://corporate-f5.herokuapp.com​/CadastradoNovoUsuario', request)
+    .then(async () => {
+      setLoad(false);
+      navigateToLogin();
+    })
+    .catch(() => {
+      setLoad(false);
+      Alert.alert("Atenção!","Não foi possível finalizar o cadastro, tentar novamente mais tarde!");
+    });
+  }
+
   const validar = () => {
-    if (cpf.trim().length ===0 && password.trim().length===0) {
-      return Alert.alert('Atenção','O Campo CPF e Senha são obrigatórios')
+    if (primeiroNome.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Primeiro Nome" é obrigatório')
     }
-    else if (cpf.trim().length===0) {
-      return Alert.alert('Atenção','O Campo CPF é obrigatório')
+    if (sobrenome.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Último Nome" é obrigatório')
     }
-    else if (password.trim().length===0) {
-      return Alert.alert('Atenção','O Campo Senha é obrigatório')
+    if (dtNasc.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Data de Nascimento" é obrigatório')
     }
-    else {
-      return navigation.navigate('Root')
+    if (email.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Email" é obrigatório')
     }
+    if (rg.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "RG" é obrigatório')
+    }
+    if (rg.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "RG" é obrigatório')
+    }
+    if (nomeMae.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "nomeMae" é obrigatório')
+    }
+    if (cpf.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "CPF" é obrigatório')
+    }
+    if (password.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Senha" é obrigatório')
+    }
+    if (RepeatPassword.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Confirmação de senha" é obrigatório')
+    }
+    if (RepeatPassword !== password) {
+      return Alert.alert('Atenção','As senha informadas são diferentes')
+    }
+    if (logradouro.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Logradouro" é obrigatório')
+    }
+    if (numEnder.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Número" é obrigatório')
+    }
+    if (complemento.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Complemento" é obrigatório')
+    }
+    if (bairro.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Bairro" é obrigatório')
+    }
+    if (cidade.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "Cidade" é obrigatório')
+    }
+    if (UF.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "UF" é obrigatório')
+    }
+    if (pais.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "País" é obrigatório')
+    }
+    if (CEP.trim().length===0) {
+      return Alert.alert('Atenção','O Campo "CEP" é obrigatório')
+    }
+
+    const request: RegisterModel = {
+        nome: primeiroNome + ' ' + sobrenome,
+        dataNascimento: moment(dtNasc, 'DD/MM/YYYY').toDate(),
+        cpf: Number(cpf.replace(/[^0-9]/g,'')),
+        rg: rg,
+        email: email,
+        sexo: sexo,
+        nomeMae: nomeMae,
+        senha: password,
+        logradouro: logradouro,
+        numeroEndereco: Number(numEnder),
+        pais: pais,
+        uf: UF,
+        cidade: cidade,
+        bairro: bairro,
+        cep: Number(CEP.replace(/[^0-9]/g,'')),
+        complemento: complemento
+      };
+      console.log(request);
+      registerApi(request);
   }
   
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <View style={[styles.horizontal, !load && {display: 'none'}]}>
+        <ActivityIndicator size="large" color={Colors.dark.tabIconSelected} />
+      </View>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <KeyboardAvoidingView style={styles.background}>
+        <KeyboardAvoidingView style={[styles.background, !load && {display: 'flex'}]}>
           <View style={styles.containerLogo}>
             <Text style={styles.title}>Criar nova conta</Text>
           </View>
           <View style={styles.containerScrollView}>
             <ScrollView style={styles.scrollView}>
+                <Text style={styles.title2}>Dados pessoais</Text>
                 <TextInput 
                   style={styles.input}  
                   label='Primeiro Nome'
-                  value={firstName}
+                  value={primeiroNome}
                   onChangeText={(text) => {
-                  setFirstName(text);
+                  setPrimeiroNome(text);
                   }}>
                 </TextInput>
                 <TextInput 
                   style={styles.input}  
                   label='Último Nome'
-                  value={lastName}
+                  value={sobrenome}
                   onChangeText={(text) => {
-                  setLastName(text);
+                  setSobrenome(text);
                   }}>
                 </TextInput>
                 <TextInput
@@ -106,43 +196,6 @@ export default function RegisterScreen() {
                   setEmail(text);
                   }}>
                 </TextInput>
-                <TextInput 
-                  style={styles.input}  
-                  label='Senha' 
-                  secureTextEntry={true}
-                  value={password}
-                  onChangeText={(text) => {
-                  setPassword(text);
-                  }}>
-                </TextInput>
-                <TextInput 
-                  style={styles.input}  
-                  label='Digite novamente sua senha.' 
-                  secureTextEntry={true}
-                  value={RepeatPassword}
-                  onChangeText={(text) => {
-                  setRepeatPassword(text);
-                  }}>
-                </TextInput>
-                <TextInput
-                  style={styles.input}
-                  label="CPF"
-                  render={(props) => (
-                    <TextInputMask
-                      {...props}
-                      value={cpf}
-                      type={"custom"}
-                      options={{
-                        mask: '99999999999'
-                      }}
-                      ref={cpfRef}
-                      onChangeText={(text) => {
-                        props.onChangeText?.(text);
-                        setCPF(text);
-                      }}  
-                    />
-                  )}
-                />
                 <TextInput
                   style={styles.input}
                   label="RG"
@@ -168,6 +221,44 @@ export default function RegisterScreen() {
                   value={nomeMae}
                   onChangeText={(text) => {
                   setNomeMae(text);
+                  }}>
+                </TextInput>
+                <Text style={styles.title2}>Dados para acesso</Text>
+                <TextInput
+                  style={styles.input}
+                  label="CPF"
+                  render={(props) => (
+                    <TextInputMask
+                      {...props}
+                      value={cpf}
+                      type={"custom"}
+                      options={{
+                        mask: '99999999999'
+                      }}
+                      ref={cpfRef}
+                      onChangeText={(text) => {
+                        props.onChangeText?.(text);
+                        setCPF(text);
+                      }}  
+                    />
+                  )}
+                />
+                <TextInput 
+                  style={styles.input}  
+                  label='Senha' 
+                  secureTextEntry={true}
+                  value={password}
+                  onChangeText={(text) => {
+                  setPassword(text);
+                  }}>
+                </TextInput>
+                <TextInput 
+                  style={styles.input}  
+                  label='Digite novamente sua senha.' 
+                  secureTextEntry={true}
+                  value={RepeatPassword}
+                  onChangeText={(text) => {
+                  setRepeatPassword(text);
                   }}>
                 </TextInput>
                 <Text style={styles.title2}>Endereço</Text>
@@ -273,9 +364,11 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   background: {
     flex: 1,
+    display: 'none',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -312,6 +405,7 @@ const styles = StyleSheet.create({
   title2: {
     marginTop: 50,
     marginBottom: 20,
+    textAlign: 'center',
     fontSize: 20,
     color: '#515252',
     fontWeight: 'bold'
@@ -336,5 +430,11 @@ const styles = StyleSheet.create({
     padding: 4,
     marginTop: 30,
     borderRadius: 25
+  },
+  horizontal: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
   },
 });
